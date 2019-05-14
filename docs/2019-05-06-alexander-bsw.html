@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+  <head>
+    <title>LoveR not a HateR</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Leigh Alexander" />
+    <meta name="date" content="2019-05-15" />
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/rladies-fonts.css" rel="stylesheet" />
+    <script src="libs/htmlwidgets-1.3/htmlwidgets.js"></script>
+    <script src="libs/jquery-1.12.4/jquery.min.js"></script>
+    <link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+    <script src="libs/datatables-binding-0.4/datatables.js"></script>
+    <link href="libs/dt-core-bootstrap-1.10.16/css/dataTables.bootstrap.min.css" rel="stylesheet" />
+    <link href="libs/dt-core-bootstrap-1.10.16/css/dataTables.bootstrap.extra.css" rel="stylesheet" />
+    <script src="libs/dt-core-bootstrap-1.10.16/js/jquery.dataTables.min.js"></script>
+    <script src="libs/dt-core-bootstrap-1.10.16/js/dataTables.bootstrap.min.js"></script>
+    <script src="libs/pdfmake-1.10.16/pdfmake.min.js"></script>
+    <script src="libs/pdfmake-1.10.16/vfs_fonts.js"></script>
+    <link href="libs/dt-ext-buttons-bootstrap-1.10.16/css/buttons.bootstrap.min.css" rel="stylesheet" />
+    <script src="libs/dt-ext-buttons-bootstrap-1.10.16/js/dataTables.buttons.min.js"></script>
+    <script src="libs/dt-ext-buttons-bootstrap-1.10.16/js/buttons.flash.min.js"></script>
+    <script src="libs/dt-ext-buttons-bootstrap-1.10.16/js/buttons.html5.min.js"></script>
+    <script src="libs/dt-ext-buttons-bootstrap-1.10.16/js/buttons.colVis.min.js"></script>
+    <script src="libs/dt-ext-buttons-bootstrap-1.10.16/js/buttons.print.min.js"></script>
+    <script src="libs/dt-ext-buttons-bootstrap-1.10.16/js/buttons.bootstrap.min.js"></script>
+    <link href="libs/crosstalk-1.0.0/css/crosstalk.css" rel="stylesheet" />
+    <script src="libs/crosstalk-1.0.0/js/crosstalk.min.js"></script>
+    <script src="libs/plotly-binding-4.8.0/plotly.js"></script>
+    <script src="libs/typedarray-0.1/typedarray.min.js"></script>
+    <link href="libs/plotly-htmlwidgets-css-1.39.2/plotly-htmlwidgets.css" rel="stylesheet" />
+    <script src="libs/plotly-main-1.39.2/plotly-latest.min.js"></script>
+    <link rel="stylesheet" href="theme.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# LoveR not a HateR
+## Machine Learning Showdown
+### Leigh Alexander
+### 2019-05-15
+
+---
+
+
+
+
+
+# Machine Learning Workflow    
+
+![](/Users/lalexander/Documents/conferences/BSW-2019/media/pipeline.png)  
+
+---
+class: center
+# Machine Learning Workflow  
+![](/Users/lalexander/Documents/conferences/BSW-2019/media/my-workflow.png)  
+
+---
+class: center, inverse, middle
+&lt;img src="/Users/lalexander/Documents/conferences/BSW-2019/media/scream.jpg" width = "400px"/&gt;
+
+---
+
+# Don't Worry  
+
+## Here's what I'll focus on today:  
+.pull-left[
+1. caret &amp; tidymodels  
+
+2. RMarkdown 
+
+3. "R plays nicely with others"
+]  
+
+.pull-right[
+
+&lt;img src="/Users/lalexander/Documents/conferences/BSW-2019/media/rmarkdown.png", width = "100px", align = "right"/&gt;  
+
+&lt;img src="/Users/lalexander/Documents/conferences/BSW-2019/media/tidymodels.png", width = "100px", align = "right"/&gt;
+
+&lt;img src="/Users/lalexander/Documents/conferences/BSW-2019/media/carrot.jpg", width = "100px", align = "right"/&gt; 
+
+] 
+
+---
+# Why model in R?
+
+* R is designed to be a language for data analysis &amp; statistics  
+  
+* Easy to link to other languages/applications  
+  + You can call models implemented in C, C++, tensorflow, keras, python, stan,
+  Weka straight from R  
+  + &lt;img src="/Users/lalexander/Documents/conferences/BSW-2019/media/cpp.png", width = "60px", align = "left"/&gt; &lt;img src="/Users/lalexander/Documents/conferences/BSW-2019/media/tensorflow.png", width = "60px", align = "center"/&gt; &lt;img src="/Users/lalexander/Documents/conferences/BSW-2019/media/python.png", width = "60px", align = "center"/&gt; 
+  &lt;br&gt; &lt;br&gt; &lt;br&gt;
+* Lots of packages with lots of models   
+  + [CRAN task view](https://cran.r-project.org/web/views/MachineLearning.html)  
+
+
+
+
+
+
+---
+## Top CRAN Downloads of ML packages in the last month
+.pull-left[
+<div id="htmlwidget-a6017d7a6f7736d0bf6f" style="width:100%;height:600px;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-a6017d7a6f7736d0bf6f">{"x":{"style":"bootstrap","filter":"none","extensions":["Buttons"],"data":[["e1071","caret","rpart","randomForest","ipred","kernlab","ROCR","glmnet","xgboost","arules","ranger","party","effects","klaR","gbm","partykit","tensorflow","nnet","earth","BDgraph","rattle","plotmo","h2o","RWeka","tree","mlr","Cubist","lars","C50","pamr","grpreg","randomForestSRC","RSNNS","ElemStatLearn","elasticnet","rgenoud","mboost","Boruta","pdp","penalized","stabs","lasso2","tgp","CORElearn","LiblineaR","maptree","deepnet","bartMachine","bst","grf","sda","evtree","gamboostLSS","hdi","CoxBoost","ncvreg","frbs","rminer","GAMBoost","BART","SuperLearner","trtf","RPMM","LogicReg","OneR","Rborist","ggRandomForests","quantregForest","grplasso","SIS","MXM","ahaz","BayesTree","varSelRF","biglasso","bmrm","ssgraph","glmpath","wsrf","hdm","hda","Rmalschains","penalizedLDA","svmpath","picasso","REEMtree","relaxo","gradDescent","oem","GMMBoost","ICEbox","RoughSets","RXshrink","vcrpart","LTRCtrees","RcppDL","evclass","rdetools","model4you","RGF","RLT","opusminer"],["188,038","152,296","132,982"," 96,093"," 93,673"," 76,734"," 63,798"," 58,624"," 40,296"," 36,864"," 33,257"," 33,231"," 27,492"," 26,928"," 26,381"," 25,245"," 23,537"," 23,355"," 20,667"," 20,498"," 18,940"," 17,200"," 16,039"," 15,991"," 15,446"," 14,670"," 14,370"," 13,526"," 12,926"," 12,523","  9,371","  7,151","  6,302","  6,069","  5,666","  5,602","  5,519","  5,300","  4,287","  4,136","  4,063","  3,479","  3,395","  3,303","  3,186","  2,983","  2,954","  2,876","  2,824","  2,796","  2,605","  2,572","  2,403","  2,361","  2,345","  2,341","  2,276","  2,127","  1,927","  1,812","  1,809","  1,677","  1,534","  1,443","  1,380","  1,274","  1,187","  1,145","  1,141","  1,104","  1,083","  1,031","    983","    948","    895","    892","    868","    850","    831","    813","    799","    778","    763","    748","    724","    718","    694","    663","    652","    650","    648","    646","    634","    594","    581","    566","    540","    535","    522","    491","    473","    430"]],"container":"<table class=\"table table-striped table-hover\">\n  <thead>\n    <tr>\n      <th>package<\/th>\n      <th>count<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"rtp","buttons":["colvis","copy","csv","pdf"],"initComplete":"function(settings, json){\n                            \n$(this.api().table().header()).css({\n                          'background-color': '#5A556E', 'color': '#fff'});\n}","height":600,"order":[],"autoWidth":false,"orderClasses":false}},"evals":["options.initComplete"],"jsHooks":[]}</script>
+]
+
+.pull-right[
+<div id="htmlwidget-a4fbd2fd660c69382e3e" style="width:100%;height:400px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-a4fbd2fd660c69382e3e">{"x":{"data":[{"orientation":"v","width":0.9,"base":0,"x":[1],"y":[6],"text":"package: e1071<br />count: 188,038<br />package: e1071","type":"bar","marker":{"autocolorscale":false,"color":"rgba(68,1,84,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"e1071","legendgroup":"e1071","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":0.9,"base":0,"x":[2],"y":[5],"text":"package: caret<br />count: 152,296<br />package: caret","type":"bar","marker":{"autocolorscale":false,"color":"rgba(65,68,135,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"caret","legendgroup":"caret","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":0.9,"base":0,"x":[3],"y":[4],"text":"package: rpart<br />count: 132,982<br />package: rpart","type":"bar","marker":{"autocolorscale":false,"color":"rgba(42,120,142,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"rpart","legendgroup":"rpart","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":0.9,"base":0,"x":[4],"y":[3],"text":"package: randomForest<br />count:  96,093<br />package: randomForest","type":"bar","marker":{"autocolorscale":false,"color":"rgba(34,168,132,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"randomForest","legendgroup":"randomForest","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":0.9,"base":0,"x":[5],"y":[2],"text":"package: ipred<br />count:  93,673<br />package: ipred","type":"bar","marker":{"autocolorscale":false,"color":"rgba(122,209,81,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"ipred","legendgroup":"ipred","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":0.9,"base":0,"x":[6],"y":[1],"text":"package: kernlab<br />count:  76,734<br />package: kernlab","type":"bar","marker":{"autocolorscale":false,"color":"rgba(253,231,37,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"kernlab","legendgroup":"kernlab","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":26.6268161062682,"r":7.97011207970112,"b":71.3005237496102,"l":72.5280199252802},"plot_bgcolor":"transparent","paper_bgcolor":"transparent","font":{"color":"rgba(0,0,0,1)","family":"","size":15.9402241594022},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0.4,6.6],"tickmode":"array","ticktext":["e1071","caret","rpart","randomForest","ipred","kernlab"],"tickvals":[1,2,3,4,5,6],"categoryorder":"array","categoryarray":["e1071","caret","rpart","randomForest","ipred","kernlab"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.98505603985056,"tickwidth":0.724555643609193,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":12.7521793275218},"tickangle":-45,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.724555643609193,"zeroline":false,"anchor":"y","title":"package","titlefont":{"color":"rgba(0,0,0,1)","family":"","size":15.9402241594022},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0,6.6],"tickmode":"array","ticktext":[" 76,734"," 93,673"," 96,093","132,982","152,296","188,038"],"tickvals":[1,2,3,4,5,6],"categoryorder":"array","categoryarray":[" 76,734"," 93,673"," 96,093","132,982","152,296","188,038"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.98505603985056,"tickwidth":0.724555643609193,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":12.7521793275218},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.724555643609193,"zeroline":false,"anchor":"x","title":"count","titlefont":{"color":"rgba(0,0,0,1)","family":"","size":15.9402241594022},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":"transparent","line":{"color":"rgba(51,51,51,1)","width":0.724555643609193,"linetype":"solid"},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":false,"legend":{"bgcolor":"transparent","bordercolor":"transparent","borderwidth":2.06156048675734,"font":{"color":"rgba(0,0,0,1)","family":"","size":12.7521793275218}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":[{"name":"Collaborate","icon":{"width":1000,"ascent":500,"descent":-50,"path":"M487 375c7-10 9-23 5-36l-79-259c-3-12-11-23-22-31-11-8-22-12-35-12l-263 0c-15 0-29 5-43 15-13 10-23 23-28 37-5 13-5 25-1 37 0 0 0 3 1 7 1 5 1 8 1 11 0 2 0 4-1 6 0 3-1 5-1 6 1 2 2 4 3 6 1 2 2 4 4 6 2 3 4 5 5 7 5 7 9 16 13 26 4 10 7 19 9 26 0 2 0 5 0 9-1 4-1 6 0 8 0 2 2 5 4 8 3 3 5 5 5 7 4 6 8 15 12 26 4 11 7 19 7 26 1 1 0 4 0 9-1 4-1 7 0 8 1 2 3 5 6 8 4 4 6 6 6 7 4 5 8 13 13 24 4 11 7 20 7 28 1 1 0 4 0 7-1 3-1 6-1 7 0 2 1 4 3 6 1 1 3 4 5 6 2 3 3 5 5 6 1 2 3 5 4 9 2 3 3 7 5 10 1 3 2 6 4 10 2 4 4 7 6 9 2 3 4 5 7 7 3 2 7 3 11 3 3 0 8 0 13-1l0-1c7 2 12 2 14 2l218 0c14 0 25-5 32-16 8-10 10-23 6-37l-79-259c-7-22-13-37-20-43-7-7-19-10-37-10l-248 0c-5 0-9-2-11-5-2-3-2-7 0-12 4-13 18-20 41-20l264 0c5 0 10 2 16 5 5 3 8 6 10 11l85 282c2 5 2 10 2 17 7-3 13-7 17-13z m-304 0c-1-3-1-5 0-7 1-1 3-2 6-2l174 0c2 0 4 1 7 2 2 2 4 4 5 7l6 18c0 3 0 5-1 7-1 1-3 2-6 2l-173 0c-3 0-5-1-8-2-2-2-4-4-4-7z m-24-73c-1-3-1-5 0-7 2-2 3-2 6-2l174 0c2 0 5 0 7 2 3 2 4 4 5 7l6 18c1 2 0 5-1 6-1 2-3 3-5 3l-174 0c-3 0-5-1-7-3-3-1-4-4-5-6z"},"click":"function(gd) { \n        // is this being viewed in RStudio?\n        if (location.search == '?viewer_pane=1') {\n          alert('To learn about plotly for collaboration, visit:\\n https://cpsievert.github.io/plotly_book/plot-ly-for-collaboration.html');\n        } else {\n          window.open('https://cpsievert.github.io/plotly_book/plot-ly-for-collaboration.html', '_blank');\n        }\n      }"}],"cloud":false},"source":"A","attrs":{"617c57f93c83":{"x":{},"y":{},"fill":{},"type":"bar"}},"cur_data":"617c57f93c83","visdat":{"617c57f93c83":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"base_url":"https://plot.ly"},"evals":["config.modeBarButtonsToAdd.0.click"],"jsHooks":[]}</script>
+]
+
+---
+class: inverse, center, middle
+# caret &amp; tidymodels
+
+---
+# caret &amp; tidymodels &lt;img src="/Users/lalexander/Documents/conferences/BSW-2019/media/tidymodels.png" class="title-hex"&gt; &lt;img src="/Users/lalexander/Documents/conferences/BSW-2019/media/carrot.jpg" class="title-hex"&gt;
+
+* Provides a **unified interface** for modeling  
+* Streamlines model tuning process and other aspects of model building
+
+.pull-left[
+## caret (**c**lassification **a**nd **re**gression **t**raining)
+* high-level syntax
+  
+* lots of out-of-the-box code
+  
+* comprehensive but bulky
+]
+
+.pull-right[
+## tidymodels
+* tidy (human-readable) 
+  
+* modularized  
+  
+* waiting for higher level api package to pull it all together  
+]
+
+---
+# caret &amp; tidymodels &lt;img src="/Users/lalexander/Documents/conferences/BSW-2019/media/tidymodels.png" class="title-hex"&gt; &lt;img src="/Users/lalexander/Documents/conferences/BSW-2019/media/carrot.jpg" class="title-hex"&gt;
+
+<div id="htmlwidget-6f1a0ade684233b5dbe8" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-6f1a0ade684233b5dbe8">{"x":{"style":"bootstrap","filter":"none","extensions":["Buttons"],"data":[["Preprocessing","Data Splitting","Model Building","Parameter Tuning","Inspect Model","Assess Performance"],["recipes","rsample","parsnip","dials","broom","yardstick, tidyposterior"],["&lt;img src=\"/Users/lalexander/Documents/conferences/BSW-2019/media/recipes.png\",\n                          width = \"50px\", align = \"center\" /&gt;","&lt;img src=\"/Users/lalexander/Documents/conferences/BSW-2019/media/rsample.png\", \n                  width = \"50px\", align = \"center\" /&gt;","&lt;img src=\"/Users/lalexander/Documents/conferences/BSW-2019/media/parsnip.png\", \n                  width = \"50px\", align = \"center\" /&gt;",null,"&lt;img src=\"/Users/lalexander/Documents/conferences/BSW-2019/media/broom.png\", \n                  width = \"50px\", align = \"center\" /&gt;","&lt;img src=\"/Users/lalexander/Documents/conferences/BSW-2019/media/yardstick.png\", \nwidth = \"50px\", align = \"left\" /&gt;&lt;img src=\"/Users/lalexander/Documents/conferences/BSW-2019/media/tidyposterior.png\", \nwidth = \"50px\", align = \"right\" /&gt;"]],"container":"<table class=\"table table-striped table-hover\">\n  <thead>\n    <tr>\n      <th>ML_Workflow<\/th>\n      <th>Package<\/th>\n      <th>Hex_Sticker<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"tr","buttons":["colvis","copy","csv","pdf"],"initComplete":"function(settings, json){\n                            \n$(this.api().table().header()).css({\n                          'background-color': '#5A556E', 'color': '#fff'});\n}","order":[],"autoWidth":false,"orderClasses":false}},"evals":["options.initComplete"],"jsHooks":[]}</script>
+
+---
+# caret &amp; tidymodels &lt;img src="/Users/lalexander/Documents/conferences/BSW-2019/media/tidymodels.png" class="title-hex"&gt; &lt;img src="/Users/lalexander/Documents/conferences/BSW-2019/media/carrot.jpg" class="title-hex"&gt;
+
+<div id="htmlwidget-c0b500ea85c1e701911d" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-c0b500ea85c1e701911d">{"x":{"style":"bootstrap","filter":"none","extensions":["Buttons"],"caption":"<caption>Example using predicted class probabilities of discordant syntax across packages.<\/caption>","data":[["lda","glm","gbm","mda","rpart","Weka","logitboost"],["MASS","stats","gbm","mda","rpart","RWeka","LogitBoost"],["predict(obj)","predict(obj, type = 'response')","predict(obj, type = 'response', n.trees)","predict(obj, type = 'posterior')","predict(obj, type = 'prob')","predict(obj, type = 'probability')","predict(obj, type = 'raw', nIter)"]],"container":"<table class=\"table table-striped table-hover\">\n  <thead>\n    <tr>\n      <th>Function<\/th>\n      <th>Package<\/th>\n      <th>Code<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"rt","buttons":["colvis","copy","csv","pdf"],"initComplete":"function(settings, json){\n                            \n$(this.api().table().header()).css({\n                          'background-color': '#5A556E', 'color': '#fff'});\n}","caption":"Example using predicted class probabilities of discordant syntax across packages.","order":[],"autoWidth":false,"orderClasses":false}},"evals":["options.initComplete"],"jsHooks":[]}</script>
+
+---
+# caret &amp; tidymodels Example &lt;img src="/Users/lalexander/Documents/conferences/BSW-2019/media/tidymodels.png" class="title-hex"&gt; &lt;img src="/Users/lalexander/Documents/conferences/BSW-2019/media/carrot.jpg" class="title-hex"&gt;
+
+```r
+set.seed(1234)
+split    &lt;- rsample::initial_split(mtcars, prop = 0.8)
+training &lt;- rsample::training(split)
+testing  &lt;- rsample::testing(split)
+tr_ctrl  &lt;- caret::trainControl(method = "repeatedcv", 
+                               number = 10, 
+                               repeats = 5)
+
+mod      &lt;- caret::train(mpg ~ ., 
+                        data = training,
+                        method = "lm",
+                        trControl = tr_ctrl)
+```
+
+---
+# caret &amp; tidymodels Example &lt;img src="/Users/lalexander/Documents/conferences/BSW-2019/media/tidymodels.png" class="title-hex"&gt; &lt;img src="/Users/lalexander/Documents/conferences/BSW-2019/media/carrot.jpg" class="title-hex"&gt;
+
+```r
+mod
+```
+
+```
+## Linear Regression 
+## 
+## 26 samples
+## 10 predictors
+## 
+## No pre-processing
+## Resampling: Cross-Validated (10 fold, repeated 5 times) 
+## Summary of sample sizes: 24, 24, 24, 23, 24, 23, ... 
+## Resampling results:
+## 
+##   RMSE    Rsquared   MAE     
+##   2.6106  0.8491251  2.327575
+## 
+## Tuning parameter 'intercept' was held constant at a value of TRUE
+```
+ 
+---
+# caret &amp; tidymodels Example &lt;img src="/Users/lalexander/Documents/conferences/BSW-2019/media/ggplot2.png" class="title-hex"&gt; &lt;img src="/Users/lalexander/Documents/conferences/BSW-2019/media/yardstick.png" class="title-hex"&gt;
+
+.right-column[
+![](2019-05-06-alexander-bsw_files/figure-html/unnamed-chunk-9-1.png)&lt;!-- --&gt;
+]
+.left-column[
+<div id="htmlwidget-d1842afa1866af4e98ca" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-d1842afa1866af4e98ca">{"x":{"style":"bootstrap","filter":"none","extensions":["Buttons"],"data":[[6.174],[0.624]],"container":"<table class=\"table table-striped table-hover\">\n  <thead>\n    <tr>\n      <th>rmse<\/th>\n      <th>rsq<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"tr","buttons":["colvis","copy","csv","pdf"],"initComplete":"function(settings, json){\n                            \n$(this.api().table().header()).css({\n                          'background-color': '#5A556E', 'color': '#fff'});\n}","columnDefs":[{"className":"dt-right","targets":[0,1]}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":["options.initComplete"],"jsHooks":[]}</script>
+]
+
+
+---
+class: inverse, middle, center
+# RMarkdown
+
+---
+# RMarkdown &lt;img src="/Users/lalexander/Documents/conferences/BSW-2019/media/rmarkdown.png" class="title-hex"&gt;
+.pull-left[
+## What is RMarkdown?
+* Analysis Notebook  
+  
+* **Communication tool**  
+]
+
+.pull-right[
+![rmkdwn-outputs](/Users/lalexander/Documents/conferences/BSW-2019/media/rmd-web.png)
+]
+
+---
+# RMarkdown &lt;img src="/Users/lalexander/Documents/conferences/BSW-2019/media/rmarkdown.png" class="title-hex"&gt;
+## HTML &amp; PDF &amp; Word
+
+![](/Users/lalexander/Documents/conferences/BSW-2019/media/html-pdf-word.png)
+
+---
+# RMarkdown &lt;img src="/Users/lalexander/Documents/conferences/BSW-2019/media/rmarkdown.png" class="title-hex"&gt;
+## Dashboards
+
+![](/Users/lalexander/Documents/conferences/BSW-2019/media/dashboard1.png)
+
+---
+# RMarkdown &lt;img src="/Users/lalexander/Documents/conferences/BSW-2019/media/rmarkdown.png" class="title-hex"&gt;
+## Another Dashboard
+![](/Users/lalexander/Documents/conferences/BSW-2019/media/dashboard2.png)
+
+---
+# RMarkdown &lt;img src="/Users/lalexander/Documents/conferences/BSW-2019/media/rmarkdown.png" class="title-hex"&gt;
+## Specialized formats
+![](/Users/lalexander/Documents/conferences/BSW-2019/media/specialized.png)
+
+---
+# RMarkdown &lt;img src="/Users/lalexander/Documents/conferences/BSW-2019/media/rmarkdown.png" class="title-hex"&gt;
+
+## Slides
+![](/Users/lalexander/Documents/conferences/BSW-2019/media/slides.png)
+
+---
+# RMarkdown &lt;img src="/Users/lalexander/Documents/conferences/BSW-2019/media/rmarkdown.png" class="title-hex"&gt;
+
+## Books &amp; Websites
+![](/Users/lalexander/Documents/conferences/BSW-2019/media/books-websites.png)
+
+---
+
+# RMarkdown &lt;img src="/Users/lalexander/Documents/conferences/BSW-2019/media/rmarkdown.png" class="title-hex"&gt;
+## Supports use of multiple languages 
+
+.pull-left[
+Supported languages
+
+&lt;!-- awk | bash | coffee | gawk | groovy  --&gt;
+
+<div id="htmlwidget-6c83da5510839ba2ef3f" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-6c83da5510839ba2ef3f">{"x":{"style":"bootstrap","filter":"none","extensions":["Buttons"],"data":[["awk | bash | coffee | gawk | groovy","haskell | lein | mysql | node | octave","perl | psql | Rscript | ruby | sas ","scala | sed | sh | stata | zsh","highlight | Rcpp | tikz | dot | c","fortran | fortran95 | asy | cat | asis","stan | block | block2 | js | css","sql | go | python | julia| sass | scss"]],"container":"<table class=\"table table-striped table-hover\">\n  <thead>\n    <tr>\n      <th>Languages<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"tr","buttons":["colvis","copy","csv","pdf"],"initComplete":"function(settings, json){\n                            \n$(this.api().table().header()).css({\n                          'background-color': '#5A556E', 'color': '#fff'});\n}","colnames":"Languages","order":[],"autoWidth":false,"orderClasses":false}},"evals":["options.initComplete"],"jsHooks":[]}</script>
+]
+
+
+.pull-right[
+Example python code chunk
+
+```python
+x = 'hello, python world!'
+print(x.split(' '))
+```
+
+```
+## ['hello,', 'python', 'world!']
+```
+]
+
+---
+# RMarkdown &lt;img src="/Users/lalexander/Documents/conferences/BSW-2019/media/rmarkdown.png" class="title-hex"&gt;
+## Parameterized Reports
+.pull-left[
+* Parameter: user-input variable
+
+* *Semi-automate* 
+  + make incremental changes to workflow or report
+  + maintains reproducibility
+  + while adding efficiency
+]
+
+.pull-right[
+
+&lt;img src="/Users/lalexander/Documents/conferences/BSW-2019/media/param-ex.png", width = "600px", height = "400px" /&gt; 
+
+]
+
+---
+class: inverse, middle, center
+# R is for Rrrrbody
+
+![errrbody](https://media.giphy.com/media/Xbb98T7nuDZBgWshRS/giphy.gif)
+---
+# R is for Everybody
+
+![](/Users/lalexander/Documents/conferences/BSW-2019/media/community.png)
+
+---
+class: inverse
+
+.pull-left[
+# Thanks!!!
+* Shout out to Boulder Startup Week
+
+  + my organizers, Sara &amp; Diana
+  
+  + my co-presenters, Aditya &amp; Matt
+]
+
+.pull-right[
+&lt;br&gt;
+### Leigh Alexander
+
+&lt;a href="http://twitter.com/ExuberantLeigh"&gt;&lt;i class="fab fa-twitter fa-fw"&gt;&lt;/i&gt;&amp;nbsp; @ExuberantLeigh&lt;/a&gt;&lt;br&gt;
+
+
+&lt;!-- ![](/Users/lalexander/Documents/conferences/BSW-2019/media/twitpic.jpg) --&gt;
+&lt;img src="/Users/lalexander/Documents/conferences/BSW-2019/media/twitpic.jpg", width = "150px"/&gt; 
+&lt;br&gt;
+(here's hoping you're now as excited about R as I am...about this hot dog)
+]
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();</script>
+
+<script>
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

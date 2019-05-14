@@ -1,0 +1,30 @@
+h1, h2, h3 {
+  font-weight: normal;
+  color: #24135F;
+}
+a, a > code {
+  color: #88398a;
+}
+.remark-code-line-highlighted { background-color: rgba(255, 255, 255, 0); } 
+
+.inverse {
+  background-color: #24135F;
+}
+.inverse, .inverse h1, .inverse h2, .inverse h3, .inverse a, inverse a > code {
+  color: #fff;
+}
+
+.title-hex{
+  height: 60px;
+  align: middle;
+  float: right;
+}
+
+.lower-hex{
+  height: 90px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  padding-left: 2;
+  float: left;
+}

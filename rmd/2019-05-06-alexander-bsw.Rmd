@@ -1,0 +1,377 @@
+---
+title: "LoveR not a HateR"
+subtitle: "Machine Learning Showdown"
+author: "Leigh Alexander"
+date: "2019-05-15"
+output:
+  xaringan::moon_reader:
+    css: [default,"theme.css", rladies-fonts]
+    lib_dir: libs
+    self-contained: TRUE
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r echo=FALSE, include=FALSE}
+options(knitr.table.format = "html", width=600)
+knitr::opts_chunk$set(message=FALSE, warning=FALSE, cache=FALSE, error = TRUE, echo=FALSE, include=FALSE)
+library(rvest)
+library(ggplot2)
+library(somaverse)
+```
+
+
+# Machine Learning Workflow    
+
+![](/Users/lalexander/Documents/conferences/BSW-2019/media/pipeline.png)  
+
+---
+class: center
+# Machine Learning Workflow  
+![](/Users/lalexander/Documents/conferences/BSW-2019/media/my-workflow.png)  
+
+---
+class: center, inverse, middle
+<img src="/Users/lalexander/Documents/conferences/BSW-2019/media/scream.jpg" width = "400px"/>
+
+---
+
+# Don't Worry  
+
+## Here's what I'll focus on today:  
+.pull-left[
+1. caret & tidymodels  
+
+2. RMarkdown 
+
+3. "R plays nicely with others"
+]  
+
+.pull-right[
+
+<img src="/Users/lalexander/Documents/conferences/BSW-2019/media/rmarkdown.png", width = "100px", align = "right"/>  
+
+<img src="/Users/lalexander/Documents/conferences/BSW-2019/media/tidymodels.png", width = "100px", align = "right"/>
+
+<img src="/Users/lalexander/Documents/conferences/BSW-2019/media/carrot.jpg", width = "100px", align = "right"/> 
+
+] 
+
+---
+# Why model in R?
+
+* R is designed to be a language for data analysis & statistics  
+  
+* Easy to link to other languages/applications  
+  + You can call models implemented in C, C++, tensorflow, keras, python, stan,
+  Weka straight from R  
+  + <img src="/Users/lalexander/Documents/conferences/BSW-2019/media/cpp.png", width = "60px", align = "left"/> <img src="/Users/lalexander/Documents/conferences/BSW-2019/media/tensorflow.png", width = "60px", align = "center"/> <img src="/Users/lalexander/Documents/conferences/BSW-2019/media/python.png", width = "60px", align = "center"/> 
+  <br> <br> <br>
+* Lots of packages with lots of models   
+  + [CRAN task view](https://cran.r-project.org/web/views/MachineLearning.html)  
+
+
+```{r}
+ml_view <- read_html("https://cran.r-project.org/web/views/MachineLearning.html")
+res <- ml_view %>% 
+  html_nodes(xpath = "/html/body/ul[1]") %>% 
+  html_children() %>% 
+  html_text()
+
+pkgs <- res %>% 
+  stringr::str_replace_all("\\(core\\)", "") %>% 
+  stringr::str_trim() %>% 
+  cranlogs::cran_downloads(packages = ., when = "last-month") %>% 
+  group_by(package) %>% 
+  summarize(count = sum(count)) %>% 
+  arrange(desc(count)) %>% 
+  mutate(count = format(count, big.mark = ","))
+```
+
+```{r}
+p <- head(pkgs) %>%
+  mutate(package = 
+           factor(package, 
+                  levels = (head(pkgs$package)), ordered = T)) %>% 
+  ggplot(aes(package, count, fill = package)) +
+    geom_col() +
+    SomaPlot::theme_soma(base_size = 12, legend.position = "none") +
+    scale_fill_viridis_d() + 
+    theme(axis.text.x = element_text(angle = 45, hjust = 1))
+    
+```
+
+---
+## Top CRAN Downloads of ML packages in the last month
+.pull-left[
+```{r include=TRUE, fig.height=5}
+pkgs %>% SomaPipeline::createDT(tab.codes = "rtp", height = 600)
+```
+]
+
+.pull-right[
+`r plotly::ggplotly(p)`
+]
+
+---
+class: inverse, center, middle
+# caret & tidymodels
+
+---
+# caret & tidymodels <img src="/Users/lalexander/Documents/conferences/BSW-2019/media/tidymodels.png" class="title-hex"> <img src="/Users/lalexander/Documents/conferences/BSW-2019/media/carrot.jpg" class="title-hex">
+
+* Provides a **unified interface** for modeling  
+* Streamlines model tuning process and other aspects of model building
+
+.pull-left[
+## caret (**c**lassification **a**nd **re**gression **t**raining)
+* high-level syntax
+  
+* lots of out-of-the-box code
+  
+* comprehensive but bulky
+]
+
+.pull-right[
+## tidymodels
+* tidy (human-readable) 
+  
+* modularized  
+  
+* waiting for higher level api package to pull it all together  
+]
+
+---
+# caret & tidymodels <img src="/Users/lalexander/Documents/conferences/BSW-2019/media/tidymodels.png" class="title-hex"> <img src="/Users/lalexander/Documents/conferences/BSW-2019/media/carrot.jpg" class="title-hex">
+
+```{r include=TRUE}
+data.frame(ML_Workflow = c("Preprocessing", "Data Splitting", "Model Building", "Parameter Tuning", "Inspect Model", "Assess Performance"),
+          Package      = c("recipes", "rsample", "parsnip", "dials", "broom", "yardstick, tidyposterior"),
+          Hex_Sticker  = c('<img src="/Users/lalexander/Documents/conferences/BSW-2019/media/recipes.png",
+                          width = "50px", align = "center" />',
+                  '<img src="/Users/lalexander/Documents/conferences/BSW-2019/media/rsample.png", 
+                  width = "50px", align = "center" />', 
+                  '<img src="/Users/lalexander/Documents/conferences/BSW-2019/media/parsnip.png", 
+                  width = "50px", align = "center" />',
+                  NA,
+                  '<img src="/Users/lalexander/Documents/conferences/BSW-2019/media/broom.png", 
+                  width = "50px", align = "center" />',
+                       str_glue('<img src="/Users/lalexander/Documents/conferences/BSW-2019/media/yardstick.png", 
+                  width = "50px", align = "left" />', '<img src="/Users/lalexander/Documents/conferences/BSW-2019/media/tidyposterior.png", 
+                  width = "50px", align = "right" />'
+                  )
+          )
+) %>% createDT(tab.codes = "tr")
+```
+
+---
+# caret & tidymodels <img src="/Users/lalexander/Documents/conferences/BSW-2019/media/tidymodels.png" class="title-hex"> <img src="/Users/lalexander/Documents/conferences/BSW-2019/media/carrot.jpg" class="title-hex">
+
+```{r, include=TRUE}
+data.frame(Function = c("lda", "glm", "gbm", "mda", "rpart", "Weka", "logitboost"), 
+                Package  = c("MASS", "stats", "gbm", "mda", "rpart", "RWeka", "LogitBoost"), 
+                Code     = c("predict(obj)", "predict(obj, type = 'response')", "predict(obj, type = 'response', n.trees)", "predict(obj, type = 'posterior')", "predict(obj, type = 'prob')", "predict(obj, type = 'probability')", "predict(obj, type = 'raw', nIter)")) %>% 
+  createDT(tab.codes = "rt", caption = "Example using predicted class probabilities of discordant syntax across packages.")
+
+```
+
+---
+# caret & tidymodels Example <img src="/Users/lalexander/Documents/conferences/BSW-2019/media/tidymodels.png" class="title-hex"> <img src="/Users/lalexander/Documents/conferences/BSW-2019/media/carrot.jpg" class="title-hex">
+```{r, echo=TRUE, include=TRUE}
+set.seed(1234)
+split    <- rsample::initial_split(mtcars, prop = 0.8)
+training <- rsample::training(split)
+testing  <- rsample::testing(split)
+tr_ctrl  <- caret::trainControl(method = "repeatedcv", 
+                               number = 10, 
+                               repeats = 5)
+
+mod      <- caret::train(mpg ~ ., 
+                        data = training,
+                        method = "lm",
+                        trControl = tr_ctrl)
+```
+
+---
+# caret & tidymodels Example <img src="/Users/lalexander/Documents/conferences/BSW-2019/media/tidymodels.png" class="title-hex"> <img src="/Users/lalexander/Documents/conferences/BSW-2019/media/carrot.jpg" class="title-hex">
+```{r, echo=TRUE, include=TRUE}
+mod
+```
+ 
+---
+# caret & tidymodels Example <img src="/Users/lalexander/Documents/conferences/BSW-2019/media/ggplot2.png" class="title-hex"> <img src="/Users/lalexander/Documents/conferences/BSW-2019/media/yardstick.png" class="title-hex">
+
+.right-column[
+```{r, include=TRUE, fig.height = 5}
+testing %<>% 
+  mutate(
+    preds = predict(mod, newdata = .)
+  )
+testing %>% 
+  ggplot(aes(preds, mpg)) +
+    geom_point(color = soma.purple, size = 2) + 
+    geom_abline(intercept = 1, slope = 1, color = soma.colors$lightgreen, size = 1.5) +
+    theme_soma(base_size = 12) +
+    xlab("Predicted MPG") +
+    ylab("Actual MPG") +
+    xlim(c(15,40)) +
+    ylim(c(15,40)) -> p
+
+p   
+```
+]
+.left-column[
+```{r, include=TRUE}
+yardstick::metrics(testing, truth = mpg, estimate = preds) %>% 
+  round(3) %>% 
+  createDT("tr")
+```
+]
+
+
+---
+class: inverse, middle, center
+# RMarkdown
+
+---
+# RMarkdown <img src="/Users/lalexander/Documents/conferences/BSW-2019/media/rmarkdown.png" class="title-hex">
+.pull-left[
+## What is RMarkdown?
+* Analysis Notebook  
+  
+* **Communication tool**  
+]
+
+.pull-right[
+![rmkdwn-outputs](/Users/lalexander/Documents/conferences/BSW-2019/media/rmd-web.png)
+]
+
+---
+# RMarkdown <img src="/Users/lalexander/Documents/conferences/BSW-2019/media/rmarkdown.png" class="title-hex">
+## HTML & PDF & Word
+
+![](/Users/lalexander/Documents/conferences/BSW-2019/media/html-pdf-word.png)
+
+---
+# RMarkdown <img src="/Users/lalexander/Documents/conferences/BSW-2019/media/rmarkdown.png" class="title-hex">
+## Dashboards
+
+![](/Users/lalexander/Documents/conferences/BSW-2019/media/dashboard1.png)
+
+---
+# RMarkdown <img src="/Users/lalexander/Documents/conferences/BSW-2019/media/rmarkdown.png" class="title-hex">
+## Another Dashboard
+![](/Users/lalexander/Documents/conferences/BSW-2019/media/dashboard2.png)
+
+---
+# RMarkdown <img src="/Users/lalexander/Documents/conferences/BSW-2019/media/rmarkdown.png" class="title-hex">
+## Specialized formats
+![](/Users/lalexander/Documents/conferences/BSW-2019/media/specialized.png)
+
+---
+# RMarkdown <img src="/Users/lalexander/Documents/conferences/BSW-2019/media/rmarkdown.png" class="title-hex">
+
+## Slides
+![](/Users/lalexander/Documents/conferences/BSW-2019/media/slides.png)
+
+---
+# RMarkdown <img src="/Users/lalexander/Documents/conferences/BSW-2019/media/rmarkdown.png" class="title-hex">
+
+## Books & Websites
+![](/Users/lalexander/Documents/conferences/BSW-2019/media/books-websites.png)
+
+---
+
+# RMarkdown <img src="/Users/lalexander/Documents/conferences/BSW-2019/media/rmarkdown.png" class="title-hex">
+## Supports use of multiple languages 
+
+.pull-left[
+Supported languages
+```{r, include=TRUE}
+# names(knitr::knit_engines$get()) 
+
+df <- data.frame('1'= "awk | bash | coffee | gawk | groovy",
+           '2' = "haskell | lein | mysql | node | octave", 
+           '3' = "perl | psql | Rscript | ruby | sas ", 
+           '4' = "scala | sed | sh | stata | zsh", 
+           '5' = "highlight | Rcpp | tikz | dot | c", 
+           '6' = "fortran | fortran95 | asy | cat | asis", 
+           '7' = "stan | block | block2 | js | css", 
+           '8' = "sql | go | python | julia| sass | scss" 
+           ) %>%  t() %>% 
+  as.data.frame() %>%
+  createDT(colnames = "Languages", tab.codes = "tr")
+```
+<!-- awk | bash | coffee | gawk | groovy  -->
+
+`r df`
+]
+
+
+.pull-right[
+Example python code chunk
+```{python, echo=TRUE, include=TRUE}
+x = 'hello, python world!'
+print(x.split(' '))
+```
+]
+
+---
+# RMarkdown <img src="/Users/lalexander/Documents/conferences/BSW-2019/media/rmarkdown.png" class="title-hex">
+## Parameterized Reports
+.pull-left[
+* Parameter: user-input variable
+
+* *Semi-automate* 
+  + make incremental changes to workflow or report
+  + maintains reproducibility
+  + while adding efficiency
+]
+
+.pull-right[
+
+<img src="/Users/lalexander/Documents/conferences/BSW-2019/media/param-ex.png", width = "600px", height = "400px" /> 
+
+]
+
+---
+class: inverse, middle, center
+# R is for Rrrrbody
+
+![errrbody](https://media.giphy.com/media/Xbb98T7nuDZBgWshRS/giphy.gif)
+---
+# R is for Everybody
+
+![](/Users/lalexander/Documents/conferences/BSW-2019/media/community.png)
+
+---
+class: inverse
+
+.pull-left[
+# Thanks!!!
+* Shout out to Boulder Startup Week
+
+  + my organizers, Sara & Diana
+  
+  + my co-presenters, Aditya & Matt
+]
+
+.pull-right[
+<br>
+### Leigh Alexander
+
+<a href="http://twitter.com/ExuberantLeigh"><i class="fab fa-twitter fa-fw"></i>&nbsp; @ExuberantLeigh</a><br>
+
+
+<!-- ![](/Users/lalexander/Documents/conferences/BSW-2019/media/twitpic.jpg) -->
+<img src="/Users/lalexander/Documents/conferences/BSW-2019/media/twitpic.jpg", width = "150px"/> 
+<br>
+(here's hoping you're now as excited about R as I am...about this hot dog)
+]
+
+
+
+
+
